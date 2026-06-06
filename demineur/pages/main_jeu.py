@@ -568,7 +568,7 @@ if st.session_state["etat_jeu"] == "menu":
     dmineur.affichage_graphique_initial()
 
 if st.session_state["etat_jeu"] == "en_jeu":
-    temps_debut = time.Time()
+    temps_debut = time.time()
     dmineur.affichage_graphique_enjeux()
 
 if st.session_state["etat_jeu"] == "perdu":
@@ -577,7 +577,7 @@ if st.session_state["etat_jeu"] == "perdu":
     st.button("relancer", on_click=dmineur.relancer)
 
 if st.session_state["etat_jeu"] == "V":
-    temps_fin = time.Time()
+    temps_fin = time.time()
     duree = temps_debut - temps_fin
     st.header("Félicitations, tu as fini le démineur.")
     st.subheader(f"Sore: {dmineur.score - duree}")
