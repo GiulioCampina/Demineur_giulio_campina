@@ -29,10 +29,13 @@ class Demineur:
         
         if "score" not in st.session_state:
             st.session_state["score"] = 0
+        
+        if "taille" not in st.session_state:
+            st.session_state["taille"] = 5
 
 
         self.score = 0
-        self.size = taille
+        self.size = st.session_state["taille"]
         self.nom = st.session_state["usnm"] 
         self.diff = diff
         self.nb_bombes = st.session_state["nb_bombes"]
@@ -45,6 +48,8 @@ class Demineur:
         entt = st.container(border=True)
         entt.title(f"Bienvenue sur le demineur: {self.nom}")
         entt.subheader("Choisi ta difficulté de jeu")
+        taille = st.number_input("Quelle taille de grille (de 3 a 9)", min_value=3, max_value=9, step=1)
+        st.session_state["taille"] = taille
 
         entt.button(label="difficulté 1",
                     key="1",
@@ -73,7 +78,14 @@ class Demineur:
         
     def afficher_grille(self):
 
-        if "img_grid" not in st.session_state and "data_grid" not in st.session_state:
+        if (
+                "img_grid" not in st.session_state
+                or "data_grid" not in st.session_state
+                or len(st.session_state["img_grid"]) != self.size
+            ):
+            self.create_grid_base_values()
+
+        if "img_grid" not in st.session_state or "data_grid" not in st.session_state:
             
             self.img_grid =  []
             self.data_grid = []
@@ -547,7 +559,10 @@ class Demineur:
 
    
 
-dmineur = Demineur(5, 8)
+dmineur = Demineur(
+    st.session_state.get("taille", 5),
+    st.session_state.get("diff", 8)
+)
 
 if st.session_state["etat_jeu"] == "menu":
     dmineur.affichage_graphique_initial()
