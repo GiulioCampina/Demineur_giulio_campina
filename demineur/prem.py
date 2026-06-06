@@ -16,4 +16,4 @@ st.session_state["usnm"] = nom
 changer_page = st.button("Allons déminer", use_container_width=True, type="primary")
 
 if changer_page:
-    st.switch_page('D:\demineur\pages\main_jeu.py')
+    st.switch_page('pages/main_jeu.py')
