@@ -2,6 +2,8 @@
 import streamlit as st
 from random import randint
 import clsmnt
+import time
+
 
 
 
@@ -566,6 +568,7 @@ if st.session_state["etat_jeu"] == "menu":
     dmineur.affichage_graphique_initial()
 
 if st.session_state["etat_jeu"] == "en_jeu":
+    temps_debut = time.Time()
     dmineur.affichage_graphique_enjeux()
 
 if st.session_state["etat_jeu"] == "perdu":
@@ -574,10 +577,11 @@ if st.session_state["etat_jeu"] == "perdu":
     st.button("relancer", on_click=dmineur.relancer)
 
 if st.session_state["etat_jeu"] == "V":
-    
+    temps_fin = time.Time()
+    duree = temps_debut - temps_fin
     st.header("Félicitations, tu as fini le démineur.")
-    st.subheader(f"Sore: {dmineur.score}")
+    st.subheader(f"Sore: {dmineur.score - duree}")
     st.button("relancer", on_click=dmineur.relancer)
     dta = clsmnt.get_tabl()
-    clsmnt.insert_new_score(str(st.session_state["usnm"]), dmineur.score)
+    clsmnt.insert_new_score(str(st.session_state["usnm"]), int(dmineur.score - duree))
     st.dataframe(dta, hide_index=True)
