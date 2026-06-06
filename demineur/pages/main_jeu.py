@@ -46,7 +46,7 @@ class Demineur:
 
     def affichage_graphique_initial(self):
         entt = st.container(border=True)
-        entt.title(f"Bienvenue sur le demineur: {self.nom}")
+        entt.title(f"Bienvenue sur le Démineur.: {self.nom}")
         entt.subheader("Choisi ta difficulté de jeu")
         taille = st.number_input("Quelle taille de grille (de 3 a 9)", min_value=3, max_value=9, step=1)
         st.session_state["taille"] = taille
@@ -577,6 +577,6 @@ if st.session_state["etat_jeu"] == "perdu":
 
 if st.session_state["etat_jeu"] == "V":
     
-    st.header("Felicitation , tu as fini le démineur")
+    st.header("Félicitations, tu as fini le démineur.")
     st.subheader(f"Sore: {dmineur.score}")
     st.button("relancer", on_click=dmineur.relancer)
