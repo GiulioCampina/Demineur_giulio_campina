@@ -33,6 +33,9 @@ class Demineur:
         if "taille" not in st.session_state:
             st.session_state["taille"] = 5
 
+        if "tmps" not in st.session_state:
+            st.session_state["tmps"] = 0
+
 
         self.score = 0
         self.size = st.session_state["taille"]
@@ -569,6 +572,8 @@ if st.session_state["etat_jeu"] == "menu":
 
 if st.session_state["etat_jeu"] == "en_jeu":
     temps_debut = time.time()
+    
+    st.session_state["tmps"] = temps_debut
     dmineur.affichage_graphique_enjeux()
 
 if st.session_state["etat_jeu"] == "perdu":
@@ -578,10 +583,11 @@ if st.session_state["etat_jeu"] == "perdu":
 
 if st.session_state["etat_jeu"] == "V":
     temps_fin = time.time()
-    duree = temps_debut - temps_fin
+    duree = st.session_state["tmps"] - temps_fin
+    st.session_state["tmps"] = 0
     st.header("Félicitations, tu as fini le démineur.")
-    st.subheader(f"Sore: {dmineur.score - duree}")
+    st.subheader(f"Sore: {round(dmineur.score - duree, 0)}")
     st.button("relancer", on_click=dmineur.relancer)
     dta = clsmnt.get_tabl()
-    clsmnt.insert_new_score(str(st.session_state["usnm"]), int(dmineur.score - duree))
+    clsmnt.insert_new_score(str(st.session_state["usnm"]), int(round(dmineur.score - duree, 0)))
     st.dataframe(dta, hide_index=True)
